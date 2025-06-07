@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MotorcycleRentalService.Domain\MotorcycleRentalService.Domain.csproj" />
+    <ProjectReference Include="..\MotorcycleRentalService.Infrastructure\MotorcycleRentalService.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

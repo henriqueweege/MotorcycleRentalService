@@ -2,9 +2,9 @@
 
 namespace MotorcycleRentalService.Domain.ValueObjects
 {
-    public class Habilitation : Document
+    public class DriverLicense : Document
     {
         public EHabilitationType HabilitationType { get; set; }
-        public string HabilitationImage { get; set; }
+        public string Number { get; set; }
     }
 }

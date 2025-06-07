@@ -1,12 +1,13 @@
-﻿using MotorcycleRentalService.Domain.Constants;
-using Newtonsoft.Json;
+﻿using MotorcycleRentalService.Domain.ValueObjects;
 
 namespace MotorcycleRentalService.Domain.Entities
 {
-    public class DeliveryMan : User
+    public class DeliveryMan
     {
         public string Id { get; set; }
-        public string Cnpj { get; set; }
-        public string MyProperty { get; set; }
+        public string Name { get; set; }
+        public Cnpj Cnpj { get; set; }
+        public DateOnly Birthday { get; set; }
+        public DriverLicense DriverLicense { get; set; }
     }
 }
