@@ -4,6 +4,9 @@ namespace MotorcycleRentalService.Application.Commands.MotorcycleCommands
 {
     public class Create
     {
-        public Motorcycle Motorcycle { get; set; }
+        public string Id { get; set; }
+        public string Model { get; set; }
+        public string Plate { get; set; }
+        public int Year { get; set; }
     }
 }

@@ -5,10 +5,10 @@ using MotorcycleRentalService.Infrastructure.Repository.Contracts;
 
 namespace MotorcycleRentalService.Application.QueryHandlers
 {
-    internal class MotorcycleHandler : IMotorcycleQueryHandler
+    public class MotorcycleQueryHandler : IMotorcycleQueryHandler
     {
         private readonly IMotorcycleRepository _repository;
-        public MotorcycleHandler(IMotorcycleRepository repository)
+        public MotorcycleQueryHandler(IMotorcycleRepository repository)
         {
             _repository = repository;
         }
@@ -19,7 +19,7 @@ namespace MotorcycleRentalService.Application.QueryHandlers
 
             try
             {
-                var motorcycle = await _repository.GetById(id);
+                var motorcycle = _repository.GetById(id);
 
                 response.Success = motorcycle is not null;
                 response.Objects = response.Success ? new List<Motorcycle>() { motorcycle } : new List<Motorcycle>();
@@ -46,7 +46,7 @@ namespace MotorcycleRentalService.Application.QueryHandlers
                     return response;
                 }
 
-                var motorcycle = await _repository.GetByPlate(plate);
+                var motorcycle = _repository.GetByPlate(plate);
 
                 response.Success = motorcycle is not null;
                 response.Objects = response.Success ? new List<Motorcycle>() { motorcycle } : new List<Motorcycle>();

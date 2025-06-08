@@ -1,13 +1,27 @@
-﻿using MotorcycleRentalService.Domain.ValueObjects;
+﻿using MotorcycleRentalService.Domain.Entities.Base;
+using MotorcycleRentalService.Domain.Enums;
 
 namespace MotorcycleRentalService.Domain.Entities
 {
-    public class DeliveryMan
+    public class DeliveryMan : Entity
     {
-        public string Id { get; set; }
         public string Name { get; set; }
-        public Cnpj Cnpj { get; set; }
-        public DateOnly Birthday { get; set; }
-        public DriverLicense DriverLicense { get; set; }
+        public string Cnpj { get; set; }
+        public DateTime Birthday { get; set; }
+        public EDriverLicenseType DriverLicenseType { get; set; }
+        public string DriverLicenseNumber { get; set; }
+
+        public static EDriverLicenseType GetLicenseTypeFromString(string licenseType)
+        {
+            switch (licenseType.ToUpper())
+            {
+                case "A":
+                    return EDriverLicenseType.A;
+                case "B":
+                    return EDriverLicenseType.B;
+                default:
+                    return EDriverLicenseType.A | EDriverLicenseType.B;
+            }
+        }
     }
 }
