@@ -9,7 +9,7 @@ namespace MotorcycleRentalService.Api.Extensions
     public static class RentalCalculationServiceInjections
     {
 
-        public static void AddRentalCalculationService(this IServiceCollection services)
+        public static void AddDomainService(this IServiceCollection services)
         {
             services.AddSingleton<IRentalCalculationServiceStrategy, PreDueRentalCalculationStrategy>();
             services.AddSingleton<IRentalCalculationServiceStrategy, PostDueRentalCalculationStrategy>();

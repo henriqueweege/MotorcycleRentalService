@@ -1,18 +1,20 @@
 ﻿using MotorcycleRentalService.Application.Commands.DeliveryManCommands;
 using MotorcycleRentalService.Application.Contracts.CommandHandlers;
+using MotorcycleRentalService.Application.Contracts.Services;
 using MotorcycleRentalService.Application.Responses;
 using MotorcycleRentalService.Domain.Entities;
 using MotorcycleRentalService.Infrastructure.Repository.Contracts;
-using System.Text;
 
 namespace MotorcycleRentalService.Application.CommandHandlers
 {
     public class DeliveryManHandler : IDeliveryManCommandHandler
     {
         private readonly IDefaultRepository<DeliveryMan> _repository;
-        public DeliveryManHandler(IDefaultRepository<DeliveryMan> repository)
+        private readonly IDocumentSaver _documentSaver;
+        public DeliveryManHandler(IDefaultRepository<DeliveryMan> repository, IDocumentSaver documentSaver)
         {
             _repository = repository;
+            _documentSaver = documentSaver;
         }
         public async Task<CommandResponse> Handle(Create command)
         {
@@ -53,12 +55,7 @@ namespace MotorcycleRentalService.Application.CommandHandlers
 
             try
             {
-                string[] fileList = GetOldVersions(command);
-
-                string path = CreateLicense(command);
-
-                RemoveOldVersions(fileList);
-
+                string path = _documentSaver.SaveDocument(command);
                 response.Success = File.Exists(path);
             }
             catch
@@ -67,33 +64,6 @@ namespace MotorcycleRentalService.Application.CommandHandlers
             }
 
             return response;
-        }
-
-        private static string[] GetOldVersions(CreateDriverLicense command)
-        {
-            string filesToDelete = $@"{command.DeliveryManId}*";
-            string[] fileList = System.IO.Directory.GetFiles("./", filesToDelete);
-            return fileList;
-        }
-
-        private static string CreateLicense(CreateDriverLicense command)
-        {
-            var path = $"./{command.DeliveryManId}_{DateTime.UtcNow.Ticks}.txt";
-            using (FileStream fs = File.Create(path))
-            {
-                byte[] info = new UTF8Encoding(true).GetBytes(command.Base64License);
-                fs.Write(info, 0, info.Length);
-            }
-
-            return path;
-        }
-
-        private static void RemoveOldVersions(string[] fileList)
-        {
-            foreach (string file in fileList)
-            {
-                System.IO.File.Delete(file);
-            }
         }
     }
 }

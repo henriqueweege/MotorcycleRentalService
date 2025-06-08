@@ -11,7 +11,7 @@ builder.Services.AddCors();
 builder.Services.AddCommandHandlers();
 builder.Services.AddQueryHandlers();
 builder.Services.AddRepositories();
-builder.Services.AddRentalCalculationService();
+builder.Services.AddDomainService();
 
 builder.Services.AddSwaggerGen(c =>
 {
