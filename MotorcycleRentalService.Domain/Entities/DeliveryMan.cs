@@ -1,9 +1,9 @@
-﻿using MotorcycleRentalService.Domain.Entities.Base;
+﻿using MotorcycleRentalService.Domain.Contracts;
 using MotorcycleRentalService.Domain.Enums;
 
 namespace MotorcycleRentalService.Domain.Entities
 {
-    public class DeliveryMan : Entity
+    public class DeliveryMan : KeyedClass
     {
         public string Name { get; set; }
         public string Cnpj { get; set; }

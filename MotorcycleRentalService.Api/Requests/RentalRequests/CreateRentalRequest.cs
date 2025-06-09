@@ -4,7 +4,7 @@ namespace MotorcycleRentalService.Api.Requests.RentalRequests
 {
     public class CreateRentalRequest
     {
-        public string identificador { get; set; }
+        public string? identificador { get; set; }
         public string entregador_id { get; set; }
         public string moto_id { get; set; }
         public DateTime data_inicio { get; set; }
@@ -17,7 +17,6 @@ namespace MotorcycleRentalService.Api.Requests.RentalRequests
 
             return !string.IsNullOrWhiteSpace(entregador_id) &&
                 !string.IsNullOrWhiteSpace(moto_id) &&
-                !string.IsNullOrWhiteSpace(identificador) &&
                 (plano == 7 || plano == 15 || plano == 30 || plano == 45 || plano == 50) &&
                 data_inicio.AddDays(plano) == data_termino &&
                 data_inicio.AddDays(plano) == data_previsao_termino;
@@ -28,7 +27,7 @@ namespace MotorcycleRentalService.Api.Requests.RentalRequests
         {
             return new Create
             {
-                Id = identificador,
+                Id = identificador is null ? string.Empty : identificador,
                 DeliveryManId = entregador_id,
                 MotorcycleId = moto_id,
                 StartDate = data_inicio,

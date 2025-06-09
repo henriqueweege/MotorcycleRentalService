@@ -6,7 +6,7 @@ using MotorcycleRentalService.Domain.Services.Strategies.PreDue;
 
 namespace MotorcycleRentalService.Api.Extensions
 {
-    public static class RentalCalculationServiceInjections
+    public static class DomainServicesInjections
     {
 
         public static void AddDomainService(this IServiceCollection services)

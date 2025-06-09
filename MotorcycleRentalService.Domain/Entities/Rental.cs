@@ -1,8 +1,8 @@
-﻿using MotorcycleRentalService.Domain.Entities.Base;
+﻿using MotorcycleRentalService.Domain.Contracts;
 
 namespace MotorcycleRentalService.Domain.Entities
 {
-    public class Rental : Entity
+    public class Rental : KeyedClass
     {
         public string MotorcycleId { get; set; }
         public string DeliveryManId { get; set; }

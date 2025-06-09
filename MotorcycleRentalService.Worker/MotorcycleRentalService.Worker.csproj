@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.0-develop.2305" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.1-dev-00953" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MotorcycleRentalService.Application\MotorcycleRentalService.Application.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,7 @@ using MotorcycleRentalService.Application.Contracts.CommandHandlers;
 using MotorcycleRentalService.Application.Responses;
 using MotorcycleRentalService.Domain.Entities;
 using MotorcycleRentalService.Infrastructure.Repository.Contracts;
+using Serilog;
 
 namespace MotorcycleRentalService.Application.CommandHandlers
 {
@@ -33,11 +34,11 @@ namespace MotorcycleRentalService.Application.CommandHandlers
                 var motorCycle = _motorcycleRepository.GetById(command.MotorcycleId);
 
 
-                if (motorCycle is not null && deliveryMan is not null)
+                if (motorCycle is not null && deliveryMan is not null && ((deliveryMan.DriverLicenseType & Domain.Enums.EDriverLicenseType.A) > 0 ))
                 {
                     var rental = new Rental();
 
-                    rental.Id = command.Id;
+                    rental.Id = string.IsNullOrWhiteSpace(command.Id) ? Guid.NewGuid().ToString() : command.Id;
                     rental.MotorcycleId = command.MotorcycleId;
                     rental.DeliveryManId = command.DeliveryManId;
                     rental.StartDate = command.StartDate;
@@ -50,8 +51,9 @@ namespace MotorcycleRentalService.Application.CommandHandlers
                     response.Success = true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 
@@ -75,8 +77,9 @@ namespace MotorcycleRentalService.Application.CommandHandlers
                     response.Success = true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 

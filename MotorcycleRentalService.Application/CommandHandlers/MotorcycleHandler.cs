@@ -1,8 +1,11 @@
-﻿using MotorcycleRentalService.Application.Commands.MotorcycleCommands;
+﻿using MassTransit;
+using MotorcycleRentalService.Application.Commands.MotorcycleCommands;
 using MotorcycleRentalService.Application.Contracts.CommandHandlers;
 using MotorcycleRentalService.Application.Responses;
 using MotorcycleRentalService.Domain.Entities;
+using MotorcycleRentalService.Domain.Events;
 using MotorcycleRentalService.Infrastructure.Repository.Contracts;
+using Serilog;
 
 namespace MotorcycleRentalService.Application.CommandHandlers
 {
@@ -10,10 +13,12 @@ namespace MotorcycleRentalService.Application.CommandHandlers
     {
         private readonly IMotorcycleRepository _motorcycleRepository;
         private readonly IRentalRepository _rentalRepository;
-        public MotorcycleHandler(IMotorcycleRepository motorcycleRepository, IRentalRepository rentalRepository)
+        private readonly IPublishEndpoint _publishEndpoint;
+        public MotorcycleHandler(IMotorcycleRepository motorcycleRepository, IRentalRepository rentalRepository, IPublishEndpoint publishEndpoint)
         {
             _motorcycleRepository = motorcycleRepository;
             _rentalRepository = rentalRepository;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<CommandResponse> Handle(Create command)
@@ -31,10 +36,17 @@ namespace MotorcycleRentalService.Application.CommandHandlers
                 };
 
                 await _motorcycleRepository.Add(motorcycle);
+
+                var @event = new MotorcycleCreated();
+                @event.Id = motorcycle.Id;
+                @event.MotorcycleYear = motorcycle.Year;
+
+                await _publishEndpoint.Publish(@event);
                 response.Success = true;
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 
@@ -58,8 +70,9 @@ namespace MotorcycleRentalService.Application.CommandHandlers
                     response.Success = true;
                 }                
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 
@@ -79,8 +92,9 @@ namespace MotorcycleRentalService.Application.CommandHandlers
                     response.Success = true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 

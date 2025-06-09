@@ -1,13 +1,11 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using MotorcycleRentalService.Domain.Entities.Base;
+using MotorcycleRentalService.Domain.Contracts;
 using MotorcycleRentalService.Infrastructure.Repository.Contracts;
-using System.Linq.Expressions;
-using System.Security.Principal;
 
 namespace MotorcycleRentalService.Infrastructure.Repository
 {
-    public class DefaultRepository<T> : IDisposable, IDefaultRepository<T> where T : Entity
+    public class DefaultRepository<T> : IDisposable, IDefaultRepository<T> where T : KeyedClass
     {
         protected AppDbContext Context { get; set; }
         protected DbSet<T> EntitySet { get; set; }

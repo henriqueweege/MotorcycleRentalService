@@ -1,7 +1,8 @@
-﻿using MotorcycleRentalService.Domain.Entities.Base;
+﻿using MotorcycleRentalService.Domain.Contracts;
+
 namespace MotorcycleRentalService.Infrastructure.Repository.Contracts
 {
-    public interface IDefaultRepository<T> where T : Entity
+    public interface IDefaultRepository<T> where T : KeyedClass
     {
         Task<T> Add(T toAdd);
         T? GetById(string id);

@@ -4,6 +4,7 @@ using MotorcycleRentalService.Application.Responses.RentalQueryReponses;
 using MotorcycleRentalService.Domain.Contracts.RentalCalculationService;
 using MotorcycleRentalService.Domain.Entities;
 using MotorcycleRentalService.Infrastructure.Repository.Contracts;
+using Serilog;
 
 namespace MotorcycleRentalService.Application.QueryHandlers
 {
@@ -31,8 +32,9 @@ namespace MotorcycleRentalService.Application.QueryHandlers
                     return Task.FromResult(response);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 
@@ -53,8 +55,9 @@ namespace MotorcycleRentalService.Application.QueryHandlers
                     response.Objects = new List<TotalRentalCostResponse>() { new () { TotalCost = totalCost } };
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 

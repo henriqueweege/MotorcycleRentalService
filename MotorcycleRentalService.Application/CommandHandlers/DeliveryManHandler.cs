@@ -4,6 +4,7 @@ using MotorcycleRentalService.Application.Contracts.Services;
 using MotorcycleRentalService.Application.Responses;
 using MotorcycleRentalService.Domain.Entities;
 using MotorcycleRentalService.Infrastructure.Repository.Contracts;
+using Serilog;
 
 namespace MotorcycleRentalService.Application.CommandHandlers
 {
@@ -41,8 +42,9 @@ namespace MotorcycleRentalService.Application.CommandHandlers
                     response.Success = false;
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 
@@ -58,8 +60,9 @@ namespace MotorcycleRentalService.Application.CommandHandlers
                 string path = _documentSaver.SaveDocument(command);
                 response.Success = File.Exists(path);
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 
