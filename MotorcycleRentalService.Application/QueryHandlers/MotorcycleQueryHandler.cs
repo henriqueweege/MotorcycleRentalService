@@ -2,6 +2,7 @@
 using MotorcycleRentalService.Application.Responses;
 using MotorcycleRentalService.Domain.Entities;
 using MotorcycleRentalService.Infrastructure.Repository.Contracts;
+using Serilog;
 
 namespace MotorcycleRentalService.Application.QueryHandlers
 {
@@ -24,8 +25,9 @@ namespace MotorcycleRentalService.Application.QueryHandlers
                 response.Success = motorcycle is not null;
                 response.Objects = response.Success ? new List<Motorcycle>() { motorcycle } : new List<Motorcycle>();
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 
@@ -51,8 +53,9 @@ namespace MotorcycleRentalService.Application.QueryHandlers
                 response.Success = motorcycle is not null;
                 response.Objects = response.Success ? new List<Motorcycle>() { motorcycle } : new List<Motorcycle>();
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Information(ex.Message);
                 response.Success = false;
             }
 

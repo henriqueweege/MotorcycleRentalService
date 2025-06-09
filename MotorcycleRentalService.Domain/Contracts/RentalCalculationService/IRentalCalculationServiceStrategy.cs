@@ -4,7 +4,7 @@ namespace MotorcycleRentalService.Domain.Contracts.RentalCalculationService
 {
     public interface IRentalCalculationServiceStrategy
     {
-        decimal CalculateRentalDailyCost(Rental rental);
+        decimal CalculateRentalTotalCost(Rental rental);
         bool AppliesTo(Rental rental);
     }
 }

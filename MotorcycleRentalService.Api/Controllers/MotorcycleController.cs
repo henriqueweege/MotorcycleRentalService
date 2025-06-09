@@ -96,16 +96,5 @@ namespace MotorcycleRentalService.Api.Controllers
 
             return BadRequest(new { message = "Dados inválidos" });
         }
-        ///// <summary>
-        ///// Create a User.
-        ///// </summary>
-        //[Produces("application/json")]
-        //[ProducesResponseType(typeof(CommandResult<User>), StatusCodes.Status500InternalServerError)]
-        //[ProducesResponseType(typeof(CommandResult<User>), StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(typeof(CommandResult<User>), StatusCodes.Status200OK)]
-        //[HttpPost]
-        //public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command, [FromServices] IMediator mediator)
-        //    => await RestTools<User>.Return(await mediator.Send(command));
-
     }
 }

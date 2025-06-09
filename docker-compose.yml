@@ -1,0 +1,55 @@
+services:
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
+ 
+  database:
+    image: postgres:latest
+    container_name: motorcycle.rental.service.database
+    environment:
+          
+       - POSTGRES_DB=postgres
+       - POSTGRES_USER=postgres
+       - PGUSER=postgres
+       - POSTGRES_PASSWORD=postgres
+    volumes:
+        - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    ports:
+        - 5432:5432
+
+  motorcyclerentalservice.api:
+    depends_on:
+        - rabbitmq
+        - database  
+    image: ${DOCKER_REGISTRY-}motorcyclerentalserviceapi
+    build:
+      context: .
+      dockerfile: MotorcycleRentalService.Api/Dockerfile
+    ports:
+        - "5000:5000"
+        - "5001:5001"
+  
+
+  motorcyclerentalservice.worker:
+    depends_on:
+        - rabbitmq
+        - database  
+    image: ${DOCKER_REGISTRY-}motorcyclerentalserviceworker
+    build:
+      context: .
+      dockerfile: MotorcycleRentalService.Worker/Dockerfile
+    ports:
+        - "6000:6000"
+        - "6001:6001"
+
